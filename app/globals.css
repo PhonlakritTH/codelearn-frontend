@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-noto-sans-thai);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +24,68 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.card {
+  background-color: lightblue;
+  border: 2px solid blue;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.card-title {
+  color: darkblue;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.displayset{
+  @apply flex min-h-screen flex-col items-center justify-center bg-slate-50
+}
+
+
+
+@theme {
+  --animate-pop-out: pop-out 0.7s ease-out;
+  --animate-float: float 4s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  @keyframes pop-out {
+    0%   { transform: translateY(0) scale(1); opacity: 1; }
+    40%  { transform: translateY(-14px) scale(1.5) rotate(-10deg); opacity: 1; }
+    100% { transform: translateY(-28px) scale(1.8) rotate(10deg); opacity: 0; }
+  }
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-fade-in {
+  animation: pageFadeIn 1s ease-out both;
+}
+/* คนที่ปิดอนิเมชันในระบบ จะไม่เล่น */
+@media (prefers-reduced-motion: reduce) {
+  .page-fade-in {
+    animation: none;
+  }
+}
+@keyframes iconBounce {
+  0%   { transform: translateY(0) scale(1); }
+  40%  { transform: translateY(-4px) scale(1.15); }
+  70%  { transform: translateY(1px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.google-btn:hover .google-icon {
+  animation: iconBounce 0.5s ease-out;
 }
