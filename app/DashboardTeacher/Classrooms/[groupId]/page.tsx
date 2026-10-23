@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -57,7 +57,7 @@ const initialStudents: StudentItem[] = [
   },
 ];
 
-export default function GroupDetailPage() {
+function GroupDetailContent() {
   const params = useParams();
   const groupId = (params?.groupId as string) || "1";
 
@@ -387,7 +387,7 @@ export default function GroupDetailPage() {
 
             <div className="mt-4">
               <CornerButton
-                href={`/DashboardTeacher/CourseVideos`}
+                href="/DashboardTeacher/Classrooms/Submissions"
                 variant="primary"
                 className="w-full"
                 icon={<ArrowRight size={18} />}
@@ -402,3 +402,12 @@ export default function GroupDetailPage() {
     </div>
   );
 }
+
+export default function GroupDetailPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-gray-500">กำลังโหลด...</div>}>
+      <GroupDetailContent />
+    </Suspense>
+  );
+}
+

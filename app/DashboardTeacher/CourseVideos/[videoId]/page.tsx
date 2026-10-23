@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import CornerButton from "../../Components/CornerButton";
 
-export default function VideoPlayerPage() {
+function VideoPlayerContent() {
   const params = useParams();
   const videoId = (params?.videoId as string) || "1";
 
@@ -46,7 +46,7 @@ export default function VideoPlayerPage() {
       {/* Back button */}
       <div>
         <Link
-          href="/DashboardTeacher/CourseVideos"
+          href="/DashboardTeacher/CourseVideos/Videos"
           className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#2563EB] transition-colors"
         >
           <ArrowLeft size={16} />
@@ -241,3 +241,12 @@ export default function VideoPlayerPage() {
     </div>
   );
 }
+
+export default function VideoPlayerPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-gray-500">กำลังโหลด...</div>}>
+      <VideoPlayerContent />
+    </Suspense>
+  );
+}
+

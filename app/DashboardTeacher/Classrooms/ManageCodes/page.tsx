@@ -166,13 +166,13 @@ export default function ManageCodesPage() {
                       >
                         <Eye size={18} />
                       </Link>
-                      <button
-                        type="button"
+                      <Link
+                        href="/DashboardTeacher/Classrooms/EditCode"
                         className="rounded-lg p-1.5 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 transition"
                         title="แก้ไข"
                       >
                         <Edit3 size={18} />
-                      </button>
+                      </Link>
                       <button
                         type="button"
                         onClick={() => handleDelete(r.id)}
