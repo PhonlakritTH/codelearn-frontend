@@ -53,12 +53,15 @@ export default function ManageCodesPage() {
   const [selectedTerm, setSelectedTerm] = useState("เทอม 1");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [records, setRecords] = useState(mockCodeRecords);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
-    if (confirm("คุณต้องการลบรหัสห้องเรียนนี้ใช่หรือไม่?")) {
-      setRecords(records.filter((r) => r.id !== id));
+  const confirmDelete = () => {
+    if (deleteTargetId) {
+      setRecords(records.filter((r) => r.id !== deleteTargetId));
+      setDeleteTargetId(null);
     }
   };
+
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
@@ -175,7 +178,7 @@ export default function ManageCodesPage() {
                       </Link>
                       <button
                         type="button"
-                        onClick={() => handleDelete(r.id)}
+                        onClick={() => setDeleteTargetId(r.id)}
                         className="rounded-lg p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600 transition"
                         title="ลบ"
                       >
@@ -199,6 +202,34 @@ export default function ManageCodesPage() {
           </button>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal matching pdf-39, pdf-40, pdf-41 */}
+      {deleteTargetId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-fade-in">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl border border-gray-100">
+            <p className="text-base font-semibold text-[#14213F] leading-relaxed">
+              หากคุณทำการกดลบข้อมูล ข้อมูลที่คุณเลือกจะถูกลบอย่างถาวร
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setDeleteTargetId(null)}
+                type="button"
+                className="flex-1 rounded-xl bg-[#FF3B30] py-2.5 text-sm font-bold text-white shadow-xs hover:bg-[#E03126] transition active:scale-95"
+              >
+                ✕ ยกเลิก
+              </button>
+              <button
+                onClick={confirmDelete}
+                type="button"
+                className="flex-1 rounded-xl bg-[#22C55E] py-2.5 text-sm font-bold text-white shadow-xs hover:bg-[#16A34A] transition active:scale-95"
+              >
+                ✓ ตกลง
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

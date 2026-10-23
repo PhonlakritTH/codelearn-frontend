@@ -103,11 +103,18 @@ export default function SubmissionsHubPage() {
   const [openTypeMenu, setOpenTypeMenu] = useState(false);
 
   const currentList = activeType === "LAB" ? labAssignments : quizAssignments;
+  const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false);
 
-  const handleSaveSchedule = () => {
+  const handleOpenSaveModal = () => {
+    setShowSaveConfirmModal(true);
+  };
+
+  const handleConfirmSave = () => {
+    setShowSaveConfirmModal(false);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };
+
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
@@ -414,7 +421,7 @@ export default function SubmissionsHubPage() {
 
           {/* บันทึกกำหนดการ Button with CornerButton & Save Icon */}
           <CornerButton
-            onClick={handleSaveSchedule}
+            onClick={handleOpenSaveModal}
             variant="primary"
             className="w-full py-3"
             icon={<Save size={18} />}
@@ -424,6 +431,34 @@ export default function SubmissionsHubPage() {
           </CornerButton>
         </div>
       </div>
+
+      {/* Save Schedule Confirmation Modal matching pdf-38, pdf-40, pdf-41 */}
+      {showSaveConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-fade-in">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-2xl border border-gray-100">
+            <p className="text-base font-semibold text-[#14213F] leading-relaxed">
+              หากคุณกดบันทึกแล้วระบบจะทำการโพสต์เนื้อหาให้นักศึกษาเห็นทันที หลังจากบันทึกคุณยังสามารถแก้ไขได้ในหน้าแก้ไขเนื้อหา
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setShowSaveConfirmModal(false)}
+                type="button"
+                className="flex-1 rounded-xl bg-[#FF3B30] py-2.5 text-sm font-bold text-white shadow-xs hover:bg-[#E03126] transition active:scale-95"
+              >
+                ✕ ยกเลิก
+              </button>
+              <button
+                onClick={handleConfirmSave}
+                type="button"
+                className="flex-1 rounded-xl bg-[#22C55E] py-2.5 text-sm font-bold text-white shadow-xs hover:bg-[#16A34A] transition active:scale-95"
+              >
+                ✓ ตกลง
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
